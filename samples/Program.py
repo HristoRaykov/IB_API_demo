@@ -271,7 +271,7 @@ class TestApp(TestWrapper, TestClient):
             #self.pnlOperations_req()
             #self.histogramOperations_req()
             #self.continuousFuturesOperations_req()
-            #self.historicalTicksOperations()
+            self.historicalTicksOperations()
             #self.tickByTickOperations_req()
             #self.whatIfOrderOperations()
             
@@ -1100,11 +1100,11 @@ class TestApp(TestWrapper, TestClient):
     @printWhenExecuting
     def contractOperations(self):
         # ! [reqcontractdetails]
-        self.reqContractDetails(210, ContractSamples.OptionForQuery())
-        self.reqContractDetails(211, ContractSamples.EurGbpFx())
-        self.reqContractDetails(212, ContractSamples.Bond())
-        self.reqContractDetails(213, ContractSamples.FuturesOnOptions())
-        self.reqContractDetails(214, ContractSamples.SimpleFuture())
+        # self.reqContractDetails(210, ContractSamples.OptionForQuery())
+        # self.reqContractDetails(211, ContractSamples.EurGbpFx())
+        # self.reqContractDetails(212, ContractSamples.Bond())
+        # self.reqContractDetails(213, ContractSamples.FuturesOnOptions())
+        # self.reqContractDetails(214, ContractSamples.SimpleFuture())
         self.reqContractDetails(215, ContractSamples.USStockAtSmart())
         # ! [reqcontractdetails]
 
@@ -1894,7 +1894,7 @@ def main():
     # cmdLineParser.add_option("-c", action="store_True", dest="use_cache", default = False, help = "use the cache")
     # cmdLineParser.add_option("-f", action="store", type="string", dest="file", default="", help="the input file")
     cmdLineParser.add_argument("-p", "--port", action="store", type=int,
-                               dest="port", default=7497, help="The TCP port to use")
+                               dest="port", default=7496, help="The TCP port to use")
     cmdLineParser.add_argument("-C", "--global-cancel", action="store_true",
                                dest="global_cancel", default=False,
                                help="whether to trigger a globalCancel req")
