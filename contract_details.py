@@ -7,13 +7,14 @@ from ibapi.contract import Contract, ContractDetails
 class DemoApp(EWrapper, EClient):
 	def __init__(self):
 		EClient.__init__(self, self)
-		self.contract_details = None
+		self.contract_details = []
 	
 	def error(self, reqId, errorCode, errorString):
 		print("Error ", reqId, " ", errorCode, " ", errorString)
 	
 	def contractDetails(self, reqId, contractDetails):
-		self.contract_details = contractDetails
+		self.contract_details.append(contractDetails)
+		print()
 
 
 def main():
