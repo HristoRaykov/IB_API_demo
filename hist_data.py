@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 
 from ibapi.utils import iswrapper
@@ -14,6 +16,7 @@ COLUMNS = ["date", "open", "high", "low", "close", "volume", "trades", "average"
 #
 # x = x.append({"date": "test1", "close": "test2"}, ignore_index=True)
 
+os.getcwd()
 
 class DemoApp(EWrapper, EClient):
     def __init__(self):
@@ -33,6 +36,7 @@ class DemoApp(EWrapper, EClient):
     
     def historicalDataEnd(self, reqId: int, start: str, end: str):
         super().historicalDataEnd(reqId, start, end)
+        self.hist_data.to_csv("C:\\Users\\hrist\\Programming\\IB_API_demo\\c_hist_data.csv")
         print()
     
     def nextValidId(self, orderId: int):
@@ -49,17 +53,23 @@ class DemoApp(EWrapper, EClient):
         super().contractDetailsEnd(reqId)
         print(self.contract_details)
         print()
+    
+    def fundamentalData(self, reqId: TickerId, data: str):
+        super().fundamentalData(reqId, data)
+        self.fund_data = data
+        print(data)
+        x = 5
 
 
 def main():
     app = DemoApp()
     
-    app.connect("127.0.0.1", 4001, 0)  # 7496
+    app.connect("127.0.0.1", 4001, 0)  # 7496 4001
     print("serverVersion:%s connectionTime:%s" % (app.serverVersion(), app.twsConnectionTime()))
     # id = app.reqIds(0)
     
     contract1 = Contract()
-    contract1.symbol = "MER PRK"
+    contract1.symbol = "WFC"
     contract1.secType = "STK"
     contract1.exchange = "SMART"
     contract1.currency = "USD"
@@ -70,11 +80,13 @@ def main():
     contract2.exchange = "SMART"
     contract2.currency = "USD"
     
-    app.reqHistoricalData(1, contract1, endDateTime="", durationStr="10 Y", barSizeSetting="1 day", whatToShow="TRADES",
-                          useRTH=1, formatDate=1, keepUpToDate=False, chartOptions=[])
+    # app.reqHistoricalData(1, contract1, endDateTime="", durationStr="1 Y", barSizeSetting="1 day",
+    #                       whatToShow="TRADES", useRTH=1, formatDate=1, keepUpToDate=False, chartOptions=[]) # TRADES ADJUSTED_LAST
     # app.reqHistoricalData(2, contract2, "", "5 W", "1 day", "TRADES", 0, 1, False, [])
     # app.reqContractDetails(1, contract1)
     # app.reqContractDetails(2, contract2)
+    
+    app.reqFundamentalData(11, contract1, "CalendarReport", []) # ReportsFinSummary
     
     app.run()
 
@@ -95,3 +107,5 @@ if __name__ == '__main__':
 # x = pd.DataFrame(columns=COLUMNS)
 # y = pd.DataFrame({"date": [1], "open": [2], "high": [3], "low": [4], "close": [5], "volume": [10], "trades": [4]})
 # x = x.append(y, ignore_index=True)
+#
+# x.to_csv("")
