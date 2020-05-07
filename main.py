@@ -104,7 +104,7 @@ def main():
     # genericTickList:
     #   - Fundamental Ratios - 258
     #   - IB Dividends - 456
-    app.reqMktData(1, contract1, "258", False, False, [])
+    app.reqMktData(1, contract1, "258, 456", False, False, [])
     
     app.run()
 
