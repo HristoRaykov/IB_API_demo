@@ -16,7 +16,6 @@ COLUMNS = ["date", "open", "high", "low", "close", "volume", "trades", "average"
 #
 # x = x.append({"date": "test1", "close": "test2"}, ignore_index=True)
 
-os.getcwd()
 
 class DemoApp(EWrapper, EClient):
     def __init__(self):
@@ -47,18 +46,26 @@ class DemoApp(EWrapper, EClient):
     def contractDetails(self, reqId: int, contractDetails: ContractDetails):
         super().contractDetails(reqId, contractDetails)
         self.contract_details = contractDetails
-        print(contractDetails)
     
     def contractDetailsEnd(self, reqId: int):
         super().contractDetailsEnd(reqId)
-        print(self.contract_details)
         print()
     
     def fundamentalData(self, reqId: TickerId, data: str):
         super().fundamentalData(reqId, data)
         self.fund_data = data
+        print(type(data))
         print(data)
         x = 5
+    
+    def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
+        print("Tick Price. Ticker Id:", reqId, "tick type:", TickTypeEnum.to_str(tickType), "Price:", price, end=" ")
+    
+    def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
+        print("Tick Size. Ticker Id:", reqId, "tick type:", TickTypeEnum.to_str(tickType), "Size:", size)
+
+    def tickString(self, reqId: TickerId, tickType: TickType, value: str):
+        super().tickString(reqId, tickType, value)
 
 
 def main():
@@ -69,7 +76,7 @@ def main():
     # id = app.reqIds(0)
     
     contract1 = Contract()
-    contract1.symbol = "WFC"
+    contract1.symbol = "OXLC"
     contract1.secType = "STK"
     contract1.exchange = "SMART"
     contract1.currency = "USD"
@@ -86,17 +93,20 @@ def main():
     # app.reqContractDetails(1, contract1)
     # app.reqContractDetails(2, contract2)
     
-    app.reqFundamentalData(11, contract1, "CalendarReport", []) # ReportsFinSummary
+    # ReportsFinSummary
+    # ReportsOwnership
+    # ReportSnapshot
+    # ReportsFinStatements
+    # RESC
+    # CalendarReport
+    # app.reqFundamentalData(11, contract1, "ReportsFinSummary", [])
+    
+    # genericTickList:
+    #   - Fundamental Ratios - 258
+    #   - IB Dividends - 456
+    app.reqMktData(1, contract1, "258", False, False, [])
     
     app.run()
-
-
-# print(app.next_val_id)
-#
-# print()
-
-# app.disconnect()
-# print()
 
 
 if __name__ == '__main__':
