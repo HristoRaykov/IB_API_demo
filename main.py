@@ -2,7 +2,6 @@ import os
 
 import pandas as pd
 
-from ibapi.utils import iswrapper
 from ibapi.client import EClient
 from ibapi.common import TickerId, TickAttrib, BarData
 from ibapi.ticktype import TickType, TickTypeEnum
