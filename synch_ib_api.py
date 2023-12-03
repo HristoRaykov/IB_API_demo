@@ -3,28 +3,32 @@ from IPython.core.display import display
 from ib_insync import *
 
 ib = IB()
-ib.connect('127.0.0.1', 4001, clientId=10)
+ib.connect('127.0.0.1', 7496, readonly=True)
 
 # positions = ib.positions()
 #
 # matches = ib.reqMatchingSymbols('intc')
 
-contract = Stock('CTY', 'SMART', 'USD')
+# contract = Stock('BAC PRP', 'SMART', 'USD')
+# contract = Bond(secIdType='CUSIP', secId='94974BGQ7')
+contract = Bond(symbol='94974BGQ7', exchange='SMART', currency='USD')
+
 contract_details = ib.reqContractDetails(contract)[0]
 available_data_from = ib.reqHeadTimeStamp(contract, whatToShow='TRADES',
                                           useRTH=True)  # the earliest date of available bar data
-# 456 - dividends
-# 258 - fundamental ratios
-ticker = ib.reqMktData(contract, '456')
 
 bars = ib.reqHistoricalData(
     contract,
     endDateTime='',
-    durationStr='60 D',
-    barSizeSetting='1 hour',
+    durationStr='10 Y',
+    barSizeSetting='1 day',
     whatToShow='TRADES',
     useRTH=True,
     formatDate=1)
+
+# 456 - dividends
+# 258 - fundamental ratios
+ticker = ib.reqMktData(contract, '456, 258')
 
 df = util.df(bars)
 display(df.head())
